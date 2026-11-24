@@ -1,0 +1,7 @@
+cff-version: 1.2.0
+message: "To cite these research notes or checks, use the project title and link to the exact Git commit."
+title: "P vs NP — Open Research Notebook"
+type: software
+authors:
+  - name: "P vs NP Open Research Notebook"
+repository-code: "https://github.com/Leonardo-Italia/p-vs-np-open-notebook"
