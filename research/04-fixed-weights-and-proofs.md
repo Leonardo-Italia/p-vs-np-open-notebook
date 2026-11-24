@@ -1,6 +1,6 @@
 # Fixed weights and proof complexity
 
-**Proof drafts.** The two constructions below are mathematical arguments based on the [local blocks](01-alternating-target.md). The [checker](../verify.py) exercises those shared blocks. The fixed circuit compiler and proof-system transfers are described here and in the [technical drafts](technical-drafts-it.md). The release checker does not test those full transfers. Independent proof review has not been recorded.
+**Proof drafts.** The two constructions below are mathematical arguments based on the [local blocks](01-alternating-target.md). The [checker](../verify.py) exercises those shared blocks. The fixed circuit compiler and proof-system transfers are described here and in the [technical drafts](technical-drafts.md). The release checker does not test those full transfers. Independent proof review has not been recorded.
 
 ## Black-box verifier
 
