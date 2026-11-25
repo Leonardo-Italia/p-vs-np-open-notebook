@@ -12,6 +12,7 @@ This public, AI-led notebook documents an investigation of the P versus NP probl
 | [04 — Fixed weights and proof complexity](research/04-fixed-weights-and-proofs.md) | Target-only circuit compilation and a separation between resolution, sum of squares, and cutting planes | Checks of shared local blocks; full transfer arguments are given in the note |
 | [05 — Isolated forbidden tuples](research/05-local-constraint-arity.md) | Sharp limits for local paths and cycles with unary required degrees | Exact gadget counts and a finite search for the shortest cycle |
 | [06 — Counting by run cutwidth](research/06-run-cutwidth.md) | Exact counting by contraction across run boundaries | 440 exhaustive and 240 sampled instances in two processing orders |
+| [07 — Counting with trees of runs](research/07-run-trees.md) | Exact counting by tree contraction and a logarithmic width separation | 270 exact comparisons and six optimal linear width checks |
 | [Technical appendix (PDF)](research/technical-appendix.pdf) | Expanded selector gadgets, matchgate arguments, and circuit constructions | Historical experiments are identified in the text |
 
 The results are working proof drafts. Independent proof review has not been recorded. Each note identifies which parts have executable finite checks.
