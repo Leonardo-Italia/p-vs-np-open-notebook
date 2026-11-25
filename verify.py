@@ -1,8 +1,10 @@
 """Exact finite checks for the research notebook. Run with Python 3.10+."""
 
 from collections import Counter
-from itertools import combinations, combinations_with_replacement, product
+from itertools import combinations, combinations_with_replacement, permutations, product
 from random import Random
+
+from run_counting import count_by_runs
 
 
 # Paths are listed in graph order, with column labels relative to each block.
@@ -398,6 +400,40 @@ def smallest_forbidden_triple_cycle():
     raise AssertionError("No cycle for the isolated forbidden triple through length six")
 
 
+def check_run_frontiers():
+    rng = Random(757)
+
+    def check(cycle, wanted):
+        size = len(cycle)
+        target_bits = [bit(wanted, i) for i in range(size)]
+        edges = [(v, cycle[(i + 1) % size]) for i, v in enumerate(cycle)]
+        expected = count_subsets(weights(edges), wanted)
+        runs = 1 + sum(a != b for a, b in zip(target_bits, target_bits[1:]))
+        order = list(range(runs))
+        rng.shuffle(order)
+        assert count_by_runs(target_bits, cycle) == expected, (target_bits, cycle)
+        assert count_by_runs(target_bits, cycle, order) == expected, (target_bits, cycle, order)
+
+    exhaustive = 0
+    for size in range(3, 6):
+        for tail in permutations(range(1, size)):
+            cycle = (0, *tail)
+            if cycle[1] > cycle[-1]:
+                continue  # A cycle and its reversal have the same weights.
+            for wanted in range(1 << size):
+                check(cycle, wanted)
+                exhaustive += 1
+
+    sampled = 0
+    for size in range(3, 13):
+        for _ in range(24):
+            cycle = list(range(size))
+            rng.shuffle(cycle)
+            check(cycle, rng.randrange(1 << size))
+            sampled += 1
+    return exhaustive, sampled
+
+
 def main():
     formula_count, positive, largest = check_alternating_reduction()
     print(f"Alternating target: {formula_count} formulas; {positive} positive; up to {largest} columns")
@@ -409,6 +445,8 @@ def main():
     smallest = smallest_forbidden_triple_cycle()
     assert smallest == 6, smallest
     print(f"Local constraints: {local_cases} gadget assignments; shortest cycle {smallest} columns")
+    exhaustive, sampled = check_run_frontiers()
+    print(f"Run frontiers: {exhaustive} exhaustive and {sampled} sampled instances in two orders")
 
 
 if __name__ == "__main__":

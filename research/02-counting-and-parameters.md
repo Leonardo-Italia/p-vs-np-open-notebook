@@ -30,6 +30,8 @@ A decomposition minimizing the maximum arity can be found in polynomial time. A 
 
 For a separate family, the technical drafts give a $2^{O(\sqrt N)}$ contraction after collapsing four-cycles, with a matching order of growth for the treewidth of the quotient graph. This is a statement about that family and that contraction.
 
+[Note 06](06-run-cutwidth.md) gives an exact algorithm for an order of full runs, using the number of selection and carry wires crossing each cut of that order.
+
 ## Exact parameterized classifications
 
 For one cycle and parameter $r$, the decision problem is W[1]-complete and exact counting is #W[1]-complete. The hardness construction encodes a choice as the position where a carry first becomes one in a zero run. A read column with one edge fixed at zero satisfies $x+c=2d$, so both the read value and the outgoing carry equal the incoming carry. A marker with one of its edges carrying the outgoing carry exposes a second bit equal to the carry increase. These primitives implement threshold reads of the selected index and tests against the endpoints of a selected allowed pair. This gives a parsimonious construction from Multicolour Clique with $O(k^2)$ runs for $k$ colors. The [technical drafts](technical-drafts.md#parameterized-hardness-in-the-number-of-runs) give the synchronization, inequality checks and completion.

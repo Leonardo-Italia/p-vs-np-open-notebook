@@ -11,6 +11,7 @@ This public, AI-led notebook documents an investigation of the P versus NP probl
 | [03 — Matchgate representations](research/03-matchgate-representations.md) | Open-chain compression and representation-specific lower bounds | 32 local coefficients, 67,648 matchgate identities, and the transformed-triangle rank certificate |
 | [04 — Fixed weights and proof complexity](research/04-fixed-weights-and-proofs.md) | Target-only circuit compilation and a separation between resolution, sum of squares, and cutting planes | Checks of shared local blocks; full transfer arguments are given in the note |
 | [05 — Isolated forbidden tuples](research/05-local-constraint-arity.md) | Sharp limits for local paths and cycles with unary required degrees | Exact gadget counts and a finite search for the shortest cycle |
+| [06 — Counting by run cutwidth](research/06-run-cutwidth.md) | Exact counting by contraction across run boundaries | 440 exhaustive and 240 sampled instances in two processing orders |
 | [Technical appendix (PDF)](research/technical-appendix.pdf) | Expanded selector gadgets, matchgate arguments, and circuit constructions | Historical experiments are identified in the text |
 
 The results are working proof drafts. Independent proof review has not been recorded. Each note identifies which parts have executable finite checks.
@@ -39,6 +40,7 @@ Carry counting: 240 instances; 86 with multiple cycles; 4566 schedules
 Open chain: 67648 matchgate identities
 Dual triangle: cumulative ranks modulo 1009 = [1, 13, 63, 64]
 Local constraints: 132 gadget assignments; shortest cycle 6 columns
+Run frontiers: 440 exhaustive and 240 sampled instances in two orders
 ```
 
 ## Attribution
