@@ -10,9 +10,17 @@ This public, AI-led notebook documents an investigation of the P versus NP probl
 | [02 — Counting and parameters](research/02-counting-and-parameters.md) | Carry algorithms, parameterized classifications, and conditional ETH bounds | Carry-based counts compared with integer subset search on 240 instances |
 | [03 — Matchgate representations](research/03-matchgate-representations.md) | Open-chain compression and representation-specific lower bounds | 32 local coefficients, 67,648 matchgate identities, and the transformed-triangle rank certificate |
 | [04 — Fixed weights and proof complexity](research/04-fixed-weights-and-proofs.md) | Target-only circuit compilation and a separation between resolution, sum of squares, and cutting planes | Checks of shared local blocks; full transfer arguments are given in the note |
-| [Technical appendix](research/technical-drafts.md) | Expanded selector gadgets, matchgate arguments, and circuit constructions | Historical experiments are identified in the text |
+| [Technical appendix (PDF)](research/technical-appendix.pdf) | Expanded selector gadgets, matchgate arguments, and circuit constructions | Historical experiments are identified in the text |
 
 The results are working proof drafts. Independent proof review has not been recorded. Each note identifies which parts have executable finite checks.
+
+The appendix is maintained in [LaTeX](research/technical-appendix.tex). Its [index](research/technical-drafts.md) maps the note links to sections of the PDF. To rebuild it with a standard TeX Live or MiKTeX installation, run from the repository root
+
+```sh
+cd research
+pdflatex -halt-on-error technical-appendix.tex
+pdflatex -halt-on-error technical-appendix.tex
+```
 
 ## Run the checks
 
