@@ -344,6 +344,60 @@ def check_triangle_rank():
     return ranks
 
 
+def check_local_constraints():
+    cases = 0
+    examples = (
+        ((2, 2, 2), (1, 1, 1), 1),
+        ((3, 4, 5), (1, 2, 3), 1),
+        ((2,) * 6, (1,) * 6, 2),
+    )
+    for sizes, forbidden, group_size in examples:
+        for values in product(*(range(size) for size in sizes)):
+            matches = tuple(value == blocked for value, blocked in zip(values, forbidden))
+            a, b, c = (
+                all(matches[i:i + group_size]) for i in range(0, len(matches), group_size)
+            )
+            degrees = (int(a), 1 - b, 1 - a, int(b), 1 - c, 1 - c)
+            solutions = sum(
+                all(wires[j - 1] + wires[j] == degree for j, degree in enumerate(degrees))
+                for wires in product((0, 1), repeat=len(degrees))
+            )
+            assert solutions == (values != forbidden), (values, solutions)
+            cases += 1
+    return cases
+
+
+def smallest_forbidden_triple_cycle():
+    assignments = tuple(product((0, 1), repeat=3))
+    degree_profiles = {
+        tuple(table[assignment[variable]] for assignment in assignments)
+        for variable in range(3)
+        for table in product(range(3), repeat=2)
+    }
+    dead = (-1, -1)
+    frontier = {((0, 1),) * len(assignments)}
+    for length in range(1, 7):
+        advanced = set()
+        for state in frontier:
+            for profile in degree_profiles:
+                updated = tuple(
+                    tuple(degree - bit if bit != -1 and 0 <= degree - bit <= 1 else -1
+                          for bit in wire_map)
+                    for wire_map, degree in zip(state, profile)
+                )
+                # An allowed assignment with neither entering bit feasible
+                # cannot be recovered by adding columns.
+                if dead not in updated[:-1]:
+                    advanced.add(updated)
+        frontier = advanced
+        if length >= 3:
+            for state in frontier:
+                accepted = tuple(zero == 0 or one == 1 for zero, one in state)
+                if all(accepted[:-1]) and not accepted[-1]:
+                    return length
+    raise AssertionError("No cycle for the isolated forbidden triple through length six")
+
+
 def main():
     formula_count, positive, largest = check_alternating_reduction()
     print(f"Alternating target: {formula_count} formulas; {positive} positive; up to {largest} columns")
@@ -351,6 +405,10 @@ def main():
     print(f"Carry counting: {cases} instances; {multiple} with multiple cycles; {schedules} schedules")
     print(f"Open chain: {check_open_matchgates()} matchgate identities")
     print(f"Dual triangle: cumulative ranks modulo 1009 = {check_triangle_rank()}")
+    local_cases = check_local_constraints()
+    smallest = smallest_forbidden_triple_cycle()
+    assert smallest == 6, smallest
+    print(f"Local constraints: {local_cases} gadget assignments; shortest cycle {smallest} columns")
 
 
 if __name__ == "__main__":
