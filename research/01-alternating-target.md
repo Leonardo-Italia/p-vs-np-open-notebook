@@ -51,7 +51,7 @@ Between two consecutive original columns with equal target bit, insert the odd-l
 
 Order and orient the path components, treating isolated vertices as paths with both endpoints at the same vertex. Join adjacent paths using six-column connectors above the expanded sequence, then join the last path to the first using the seven-column connector. Each six-column block starts with one and ends with zero, and the last block starts and ends with one. The original sequence starts and ends with zero, so the final target is $T_N$ with even $N$. The graph is a simple cycle and the connectors add no independent choices. Their terminal edges stay unselected in every solution.
 
-The two highest positions are nonadjacent in the closing connector. Thus every weight is at most $2^{N-1}+2^{N-3}<T_N$ for even $N\ge6$. All constructed instances satisfy this bound. The construction has a linear number of positions and edges in the size of the formula, so the explicit binary encoding is polynomial. The bijections above prove parsimony. Membership in NP and #P follows by checking the sum of a proposed subset or counting the accepting branches of that verifier.
+The two highest positions are nonadjacent in the closing connector. Thus every weight is at most $2^{N-1}+2^{N-3}\lt T_N$ for even $N\ge6$. All constructed instances satisfy this bound. The construction has a linear number of positions and edges in the size of the formula, so the explicit binary encoding is polynomial. The bijections above prove parsimony. Membership in NP and #P follows by checking the sum of a proposed subset or counting the accepting branches of that verifier.
 
 ## Extensions in the research notebook
 

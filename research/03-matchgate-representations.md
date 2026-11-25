@@ -49,7 +49,7 @@ with the outgoing carry bit flipped for $t=0$, or the incoming carry bit flipped
 
 ```math
 \prod_i(1+y_i)
-=\left(1+\sum_i y_i\right)\exp\left(\sum_{i<j}y_iy_j\right).
+=\left(1+\sum_i y_i\right)\exp\left(\sum_{i\lt j}y_iy_j\right).
 ```
 
 The identity follows by the Baker–Campbell–Hausdorff formula because each commutator of two linear forms is quadratic and commutes with the others. The entire product consequently splits into two parity-definite Gaussian terms. Bit flips and the contractions on adjacent carry ports preserve the matchgate property. The transformed open arithmetic signature is a sum of at most two matchgates, for any length.

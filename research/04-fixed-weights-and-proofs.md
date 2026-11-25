@@ -71,7 +71,7 @@ The local implications recover all copy equalities, all separator pins and the t
 The proof also works over the original weight variables. Use the integer affine form $\ell_i(z)=\sum_{j\ge i}2^{j-i}(t_j-s_j(z))$ for carry $i$. The column equations then hold identically. From $L=0$,
 
 ```math
-2^i\ell_i=\sum_{j<i}2^j(s_j-t_j).
+2^i\ell_i=\sum_{j\lt i}2^j(s_j-t_j).
 ```
 
 Boolean bounds put the right side between $-(2^i-1)$ and $2(2^i-1)$. Division with rounding yields $0\le\ell_i\le1$, with both endpoint carries pinned to zero. Integer affine substitution commutes with the rounding rule, so the original cutting-planes proof can be written in the weight variables with polynomial bit length.
