@@ -14,52 +14,52 @@ For one run of length $\ell$, there are $\ell+2$ carry options. Each fixes its t
 
 At an internal node, let $A,B$ be the two child sets and $C$ the remaining runs. The wires between $A,B$ are indexed by $i$, those between $A,C$ by $j$, and those between $B,C$ by $k$. Each index is an assignment to all wires of the corresponding class. The merge is
 
-$$
+```math
 T_{A\cup B}(j,k)=\sum_i T_A(i,j)\,T_B(i,k).
-$$
+```
 
 All constraints internal to one child were already enforced. The sum gives each common wire a consistent bit. At the root the boundary is empty, and each subset has unique selection bits and carries. The table contains the exact subset count.
 
 If the three classes have sizes $a,b,c$, then $a+b,a+c,b+c\le W$. Direct merging costs $O(2^{a+b+c})$ arithmetic operations, at most $O(2^{3W/2})$. For faster merging, view the expression as multiplication of a $2^b$ by $2^a$ matrix and a $2^a$ by $2^c$ matrix. Let $m=\min(a,b,c)$. Split all dimensions into blocks of size $2^m$. With [Strassen's integer matrix multiplication](https://doi.org/10.1007/BF02165411), the cost is
 
-$$
+```math
 O\!\left(2^{\,a+b+c-3m} 2^{\,m\log_2 7}\right)
 \ \le\ O\!\left(2^{\,W\log_2(7)/2}\right).
-$$
+```
 
 The largest two sizes sum to at most $W$, and $m\le W/2$. The leaf construction, wiring and table packing, and the $r-1$ merges give
 
-$$
+```math
 O\!\left(N\log(N+1)+N(W+1)2^W+r\,2^{\,W\log_2(7)/2}\right)
-$$
+```
 
 arithmetic operations for a supplied tree. The finite checker below uses direct merging and enumerates leaf selections for its small leaves. The displayed faster bound uses the transfer trees and matrix multiplication in the proof.
 
 ## How much can a tree improve the width?
 
-Let $W_*$ and $L_*$ denote the smallest tree width and smallest linear width, respectively. For $r\ge2$,
+Let $`W_*`$ and $`L_*`$ denote the smallest tree width and smallest linear width, respectively. For $r\ge2$,
 
-$$
+```math
 W_*\le 2L_*,\qquad L_*\le W_*\lfloor\log_2 r\rfloor.
-$$
+```
 
-For the first bound, use the binary tree whose internal groups are the successive prefixes of an optimal linear order. Internal cuts have at most $L_*$ wires. The singleton for a run has at most $2L_*$ incident wires, since every one crosses the cut immediately before or after that run.
+For the first bound, use the binary tree whose internal groups are the successive prefixes of an optimal linear order. Internal cuts have at most $`L_*`$ wires. The singleton for a run has at most $`2L_*`$ incident wires, since every one crosses the cut immediately before or after that run.
 
-For the second bound, start from an optimal tree and recursively visit the child with more leaves first, breaking ties arbitrarily. For any proper prefix of the resulting leaf order, follow the path from the root to its first unvisited leaf. The prefix is the disjoint union of the first-child subtrees whose second-child subtrees contain that leaf. Every such descent is into a subtree with at most half as many leaves, so there are at most $\lfloor\log_2 r\rfloor$ of them. Each subtree has at most $W_*$ outgoing wires, which bounds the outgoing wires of their union.
+For the second bound, start from an optimal tree and recursively visit the child with more leaves first, breaking ties arbitrarily. For any proper prefix of the resulting leaf order, follow the path from the root to its first unvisited leaf. The prefix is the disjoint union of the first-child subtrees whose second-child subtrees contain that leaf. Every such descent is into a subtree with at most half as many leaves, so there are at most $\lfloor\log_2 r\rfloor$ of them. Each subtree has at most $`W_*`$ outgoing wires, which bounds the outgoing wires of their union.
 
 ## A logarithmic separation on a single cycle
 
 Let $B_h$ be a complete binary tree of height $h\ge1$, with $r=2^{h+1}-1$ vertices. Replace each edge by $2q$ parallel edges, for an integer $q\ge1$, and take an Euler circuit. Make one bit column for every departure on this circuit. Group the columns for each vertex contiguously in bit order, with the groups in preorder of $B_h$. Give successive groups alternating target bits. In selection order put the columns along the Euler circuit. The bit columns are distinct, so this gives a single simple selection cycle. Its quotient by target runs is the doubled-and-repeated tree with the preorder carry path added.
 
-Build a binary grouping tree by first merging each vertex with its full left subtree and then adding its full right subtree. The groups so formed are singletons, full rooted subtrees, and a vertex together with its left subtree. They are intervals of the preorder and have at most two carry wires leaving each group. At most three original binary-tree edges leave any group. The grouping tree has width at most $6q+2$. For $h\ge2$ a nonroot internal vertex has three binary-tree neighbors and two preorder neighbors counted as wires. Its singleton cut has exactly $6q+2$ wires, so $W_*=6q+2$.
+Build a binary grouping tree by first merging each vertex with its full left subtree and then adding its full right subtree. The groups so formed are singletons, full rooted subtrees, and a vertex together with its left subtree. They are intervals of the preorder and have at most two carry wires leaving each group. At most three original binary-tree edges leave any group. The grouping tree has width at most $6q+2$. For $h\ge2$ a nonroot internal vertex has three binary-tree neighbors and two preorder neighbors counted as wires. Its singleton cut has exactly $6q+2$ wires, so $`W_*=6q+2`$.
 
 The linear cutwidth of $B_h$ is at least $\lceil h/2\rceil$. To see this, take any linear order and the four subtrees rooted at the grandchildren. Choose one whose first vertex is not the earliest first vertex and whose last vertex is not the latest last vertex among the four. A cut attaining its internal width occurs with some exterior vertex already processed and another exterior vertex still unprocessed. The complement of the chosen subtree is connected, giving at least one extra crossing edge outside it. Thus the linear cutwidth increases by at least one from height $h-2$ to height $h$. The base widths are zero for height zero and at least one for height one. Parallel edges now give
 
-$$
+```math
 L_*\ge 2q\lceil h/2\rceil.
-$$
+```
 
-Together with the general comparison, this gives a worst-case ratio $L_*/W_*=\Theta(\log r)$ on these instances. The same quotient can be realized on a satisfiable instance by replacing each Euler visit by two consecutive columns of its run. Choose the internal edge of each two-column visit in a one run and no other edges. Every target bit then matches its selection degree with carries zero.
+Together with the general comparison, this gives a worst-case ratio $`L_*/W_*=\Theta(\log r)`$ on these instances. The same quotient can be realized on a satisfiable instance by replacing each Euler visit by two consecutive columns of its run. Choose the internal edge of each two-column visit in a one run and no other edges. Every target bit then matches its selection degree with carries zero.
 
 For $h=9$ and $q=1$, the satisfiable construction has 1,023 runs and 4,088 columns. Its tree width is 8 and every linear order has width at least 10. The bound in the number of runs alone remains open.
 
