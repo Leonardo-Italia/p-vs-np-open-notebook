@@ -7,10 +7,12 @@
 The input has $N$ bit columns, a selection cycle on those columns, and a target written on the same $N$ columns. Each selection edge between columns $i,j$ represents a weight $2^i+2^j$. A run is a maximal constant substring of the target in increasing bit order. Form a multigraph with one vertex per run. Include one edge for each selection wire whose ends belong to different runs, and one for each carry wire joining consecutive runs in bit order. Retain all parallel edges. Choose an order of the runs. Let $w$ be the largest number of wires crossing a prefix cut of this order.
 
 **Theorem.** Given the order, the exact number of solutions can be computed in
-$$
+
+```math
 O\bigl(N\log(N+1)+N(w+1)2^w\bigr)
-$$
-arithmetic operations and $O(N+2^w)$ arithmetic slots. The counts use $O(N)$ bits per slot. Under ETH, time $2^{o(w)}\operatorname{poly}(N)$ is impossible uniformly, even with the order supplied.
+```
+
+arithmetic operations and $O(N+2^w)$ arithmetic slots. The counts use $O(N)$ bits per slot. Under ETH, time $`2^{o(w)}\mathop{\mathrm{poly}}\nolimits(N)`$ is impossible uniformly, even with the order supplied.
 
 ## What a run contributes
 
@@ -30,12 +32,14 @@ The two scans have at most $2^w$ entries each. Fragment endpoints are distinct i
 
 ## Tightness and an example
 
-In [Note 01](01-alternating-target.md), ETH excludes $2^{o(N)}\operatorname{poly}(N)$ time even for alternating targets. For those instances, every run is one column and every order has $w\le 2N-1$ by the total wire count. Supplying bit order to an algorithm with time $2^{o(w)}\operatorname{poly}(N)$ would give the excluded bound. This establishes the order of growth of the exponent in $w$. The separate question of a bound in the number of runs alone remains open.
+In [Note 01](01-alternating-target.md), ETH excludes $`2^{o(N)}\mathop{\mathrm{poly}}\nolimits(N)`$ time even for alternating targets. For those instances, every run is one column and every order has $w\le 2N-1$ by the total wire count. Supplying bit order to an algorithm with time $`2^{o(w)}\mathop{\mathrm{poly}}\nolimits(N)`$ would give the excluded bound. This establishes the order of growth of the exponent in $w$. The separate question of a bound in the number of runs alone remains open.
 
 For a family of width three, label the runs $0,\ldots,r-1$. Arrange two nonempty fragments per run in cyclic order
-$$
+
+```math
 0,1,\ldots,r-1,r-1,\ldots,1,0 .
-$$
+```
+
 For $r\ge2$, every proper prefix of the bit order has two selection wires and one carry wire across its cut. The arrangement inside any fragment is arbitrary. For example, with 40 runs of length 32, split each run into its first 16 and last 16 positions in bit order, placing the first halves on the forward pass and the last halves on the reverse pass. The implementation returns 22 solutions on this 1,280-column instance when the first run is zero.
 
 ## Reproduction

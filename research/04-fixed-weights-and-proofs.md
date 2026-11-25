@@ -8,9 +8,9 @@ For a Boolean circuit $V(x,y)$ of AND and NOT gates, there is a fixed list $W_V$
 
 To construct it, first compile the circuit into the exact-one relation $R(a,b,c)$, meaning $a+b+c=1$. The three relations $R(u,v,w),R(u,w,f),R(v,w,f)$ force $u=v=f=0$ and $w=1$. Give each signal $a$ a complementary variable with $R(a,\bar a,f)$. A NOT gate with output $z$ is $R(a,z,f)$. An AND gate with inputs $a,b$ and output $z$ uses fresh $u',v',w'$ in
 
-$$
+```math
 R(u',v',a),\qquad R(w',z,\bar a),\qquad R(v',z,\bar b).
-$$
+```
 
 For $a=0$ the middle relation forces $z=w'=0$ and the last forces $v'=b$. For $a=1$ the first forces $u'=v'=0$ and the last gives $z=b$. In both cases all internal values are unique and $z=a\land b$. Also give unused inputs and witnesses their complement relation, so that every witness bit is represented.
 
@@ -30,7 +30,7 @@ The ordinary projection from free input bits to target bits transfers lower boun
 
 Compiling an $O(m\log^3m)$-gate verifier for Harnik–Raz yields a monotone restriction on the free inputs with a monotone circuit lower bound of $2^{\Omega(\sqrt N/\log^{5/2}N)}$. The verifier guesses a small-degree polynomial over a field of prime size $m$, checks sufficient distinct evaluations, and looks up the input bit for each evaluation using an oblivious sorting network. The bound transfers [Cavalar, Kumar and Rossman's Harnik–Raz lower bound](https://eccc.weizmann.ac.il/report/2020/181/revision/2/download/). The technical drafts give the verifier's parameters and size accounting.
 
-For fixed weights and target, the symbolic subset polynomial is $G(z)=\sum_{S:\,\sum_{e\in S}w_e=T}\prod_{e\in S}z_e$. There are one-cycle families for which $G$ requires $2^{\Omega(N)}$ gates in monotone arithmetic circuits. Use a positive-rate constant-alphabet code with linear-size verification and agreement below one third, and compile flags indicating each symbol of each codeword. The variable gadget's internal edge $q$ is selected precisely when its flag is true. Map its formal weight to the codeword's corresponding symbol variable and all other formal weights to one. This is a monotone projection onto the codeword polynomial, which has a circuit lower bound equal to the code size by [Cavalar, Kumar and Rossman, Theorem 7](https://pmc.ncbi.nlm.nih.gov/articles/PMC9705498/). Existence of codes with the required linear-size implementation follows from the sparse parity-check and constant-length sampling argument in the technical drafts. This lower bound concerns the symbolic polynomial.
+For fixed weights and target, the symbolic subset polynomial is $`G(z)=\sum_{S:\,\sum_{e\in S}w_e=T}\prod_{e\in S}z_e`$. There are one-cycle families for which $G$ requires $2^{\Omega(N)}$ gates in monotone arithmetic circuits. Use a positive-rate constant-alphabet code with linear-size verification and agreement below one third, and compile flags indicating each symbol of each codeword. The variable gadget's internal edge $q$ is selected precisely when its flag is true. Map its formal weight to the codeword's corresponding symbol variable and all other formal weights to one. This is a monotone projection onto the codeword polynomial, which has a circuit lower bound equal to the code size by [Cavalar, Kumar and Rossman, Theorem 7](https://pmc.ncbi.nlm.nih.gov/articles/PMC9705498/). Existence of codes with the required linear-size implementation follows from the sparse parity-check and constant-length sampling argument in the technical drafts. This lower bound concerns the symbolic polynomial.
 
 ## A proof-system separation at an alternating target
 
@@ -44,9 +44,9 @@ For one ternary XOR, use three columns with target bits $(0,b,1)$, read least si
 
 The translation admits a bounded-locality substitution on every assignment, including assignments violating the source. Assign each prefix its actual parity. In a ternary test assign $q=\lfloor(a_1+a_2+a_3)/2\rfloor$, using the corresponding choices in all auxiliary blocks. A wrong parity creates a nonzero residue only in the central column of that test. After the prefix substitutions the only possible residues are at one column $j_v$ per original graph vertex. They are
 
-$$
-g_v(x)=\operatorname{parity}(x_{e:e\ni v})-b_v.
-$$
+```math
+g_v(x)=\mathop{\mathrm{parity}}\nolimits(x_{e:e\ni v})-b_v.
+```
 
 Each substitution is a Boolean function of a constant number of source variables. The intermediate identities use the assigned incoming carry, and the connectors have constant choices.
 
@@ -56,9 +56,9 @@ Encode each target column by the clauses that forbid its invalid local truth-tab
 
 Represent each substitution by its multilinear real polynomial $f_e$. Let $L(z)=\sum_e w_ez_e-T$. Multiplying the local residues by their bit weights and telescoping the carries gives the exact polynomial identity
 
-$$
+```math
 L(f(x))=\sum_v2^{j_v}g_v(x).
-$$
+```
 
 The equality holds on the Boolean cube, and both sides are multilinear. The polynomial $g_v$ is a scalar multiple of the usual Tseitin polynomial constraint. Substituting into an SOS refutation preserves squares. Each Boolean residue $f_e^2-f_e$ lies in the source Boolean ideal with a constant-degree derivation by multilinear reduction. A target degree-$D$ proof would give a source proof of degree $O(D)$. The lower bound of [Grigoriev](https://logic.pdmi.ras.ru/~grigorev/pub/square_journal.pdf) therefore transfers. The [Atserias–Hakoniemi size–degree trade-off](https://drops.dagstuhl.de/storage/00lipics/lipics-vol137-ccc2019/LIPIcs.CCC.2019.24/LIPIcs.CCC.2019.24.pdf) gives the exponential monomial bound.
 
@@ -70,9 +70,9 @@ The local implications recover all copy equalities, all separator pins and the t
 
 The proof also works over the original weight variables. Use the integer affine form $\ell_i(z)=\sum_{j\ge i}2^{j-i}(t_j-s_j(z))$ for carry $i$. The column equations then hold identically. From $L=0$,
 
-$$
+```math
 2^i\ell_i=\sum_{j<i}2^j(s_j-t_j).
-$$
+```
 
 Boolean bounds put the right side between $-(2^i-1)$ and $2(2^i-1)$. Division with rounding yields $0\le\ell_i\le1$, with both endpoint carries pinned to zero. Integer affine substitution commutes with the rounding rule, so the original cutting-planes proof can be written in the weight variables with polynomial bit length.
 

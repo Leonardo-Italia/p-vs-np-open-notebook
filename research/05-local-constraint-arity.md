@@ -26,9 +26,9 @@ If all degrees at $u$ are one, the cycle is even by the parity observation, and 
 
 For sharpness, let $a,b,c$ indicate membership at the three designated values. Form a six-column cycle with the cyclic degree order
 
-$$
+```math
 (a,\;1-b,\;1-a,\;b,\;1-c,\;1-c).
-$$
+```
 
 Let $M_s[x,y]=\mathbf{1}[x+y=s]$ be the degree transfer matrix. The first four transfers multiply to $M_2$ when $a=b=1$, and to $M_0$ otherwise. The last two multiply to the identity for $c=0$ and to $M_0$ for $c=1$. The trace is zero at $(1,1,1)$ and one everywhere else. The construction applies to arbitrary domains by using the indicators as unary functions.
 

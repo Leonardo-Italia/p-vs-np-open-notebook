@@ -6,9 +6,9 @@
 
 Label the bit positions from $0$ to $N-1$. An edge $\{i,j\}$ denotes the weight $2^i+2^j$. For even $N$, fix the target
 
-$$
+```math
 T_N=(1010\ldots10)_2=\frac{2(2^N-1)}3.
-$$
+```
 
 There is a parsimonious reduction from positive exact-one 3-SAT to Subset Sum with this target and a simple cycle as the edge graph. Each position occurs in exactly two weights, and the weights are distinct and smaller than $T_N$. The decision problem is NP-complete, and counting solutions is #P-complete. In the input to the reduction, a clause is satisfied when exactly one of its three occurrences is true. Repeated occurrences are allowed, and the variables are those appearing in the formula.
 
@@ -18,9 +18,9 @@ The source results are [Schaefer, *The Complexity of Satisfiability Problems*](h
 
 Let $s_i$ be the number of selected incident edges at position $i$, and let $c_i$ be its incoming carry. With at most two occurrences per position, all carries are binary. The column equation is
 
-$$
+```math
 s_i+c_i=t_i+2c_{i+1}, \qquad c_0=c_N=0.
-$$
+```
 
 A column with no incident edges and target bit zero forces both carries to zero. Append such a separator to each of the following blocks. Each named wire is an edge whose two endpoints are columns. All bit patterns below are specified from least to most significant unless explicitly displayed as binary integers.
 
@@ -55,7 +55,7 @@ The two highest positions are nonadjacent in the closing connector. Thus every w
 
 ## Extensions in the research notebook
 
-Under the Exponential Time Hypothesis (ETH), no uniform $2^{o(N)}\operatorname{poly}(N)$ algorithm decides this class. The number of positions is linear in the size of the exact-one formula. To start from sparse 3-SAT, fix complementary pairs for each variable with the exact-one relation $R(x,\bar x,0)$, where a constant zero can be forced by a constant-size exact-one gadget. For a three-literal clause use three selectors with $R(p_1,p_2,p_3)$ and impose $R(p_j,\overline{\ell_j},z_j)$ for fresh slack bits. An extension exists precisely if a selector can point to a true literal. The number of added variables and clauses is linear. The [sparsification lemma of Impagliazzo, Paturi and Zane](https://cseweb.ucsd.edu/~paturi/myPapers/pubs/ImpagliazzoPaturiZane_2001_jcss.pdf) gives the stated conditional bound.
+Under the Exponential Time Hypothesis (ETH), no uniform $`2^{o(N)}\mathop{\mathrm{poly}}\nolimits(N)`$ algorithm decides this class. The number of positions is linear in the size of the exact-one formula. To start from sparse 3-SAT, fix complementary pairs for each variable with the exact-one relation $R(x,\bar x,0)$, where a constant zero can be forced by a constant-size exact-one gadget. For a three-literal clause use three selectors with $R(p_1,p_2,p_3)$ and impose $R(p_j,\overline{\ell_j},z_j)$ for fresh slack bits. An extension exists precisely if a selector can point to a true literal. The number of added variables and clauses is linear. The [sparsification lemma of Impagliazzo, Paturi and Zane](https://cseweb.ucsd.edu/~paturi/myPapers/pubs/ImpagliazzoPaturiZane_2001_jcss.pdf) gives the stated conditional bound.
 
 The parity of the solution count is also $\oplus P$-complete. For this conclusion, a parsimonious source reduction is needed. The [fixed-weight verifier construction](04-fixed-weights-and-proofs.md#black-box-verifier) gives one directly from a Boolean circuit and, in the absence of free input pins, admits the same alternating completion after all constant pins are laid out in the low part.
 
