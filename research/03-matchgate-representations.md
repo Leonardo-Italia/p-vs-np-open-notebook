@@ -75,6 +75,8 @@ R_E\ge\left(\frac{1+12z+50z^2+z^3}{(1+z)^6}\right)^r>1.89^r
 
 The family has an immediate subset solution selecting the weight three in each triangle at its scale. The bound isolates the cost of representing the dual equality signature as a separate sum. It leaves open contractions that exploit the two signatures together.
 
+[Note 08](08-connected-dual-rank.md) proves an exponential dual rank bound for the same explicit pair bases on a single cycle with an alternating target.
+
 ## Executable checks
 
 The [checker](../verify.py) verifies all 32 entries of the local transformation, the matchgate identities for both parity components through three columns, and the modular rank calculation for the transformed triangle. The rank-growth argument and the uniform single-port lower bound are proof arguments rather than conclusions of a finite search.

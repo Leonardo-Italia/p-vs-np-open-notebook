@@ -16,6 +16,8 @@ BRIDGE = ((0, 3, 2, 5, 1, 4), 21, (9, 12))
 CLOSURE = ((0, 2, 3, 1, 5, 4, 6), 85, (5, 80))
 A0 = ((0, 0, 0, 2), (2, 1, 1, 0), (0, -1, 1, 2), (-2, 1, 1, 0))
 A1 = tuple((row[3], row[1], row[2], row[0]) for row in A0)
+D0 = ((0, 2, -2, 2), (1, 1, 1, 0), (0, -2, 2, 0), (-1, 1, 1, 0))
+D1 = tuple((row[3], row[1], row[2], row[0]) for row in D0)
 
 
 def bit(integer, index):
@@ -321,10 +323,8 @@ def clifford_word(values, word):
 
 
 def check_triangle_rank():
-    d0 = ((0, 2, -2, 2), (1, 1, 1, 0), (0, -2, 2, 0), (-1, 1, 1, 0))
-    d1 = tuple((row[3], row[1], row[2], row[0]) for row in d0)
     # D is 4 A^{-T}; check the normalization before evaluating the closed triangle.
-    for a, d in ((A0, d0), (A1, d1)):
+    for a, d in ((A0, D0), (A1, D1)):
         for i, j in product(range(4), repeat=2):
             assert sum(a[k][i] * d[k][j] for k in range(4)) == 4 * (i == j)
     vectors = []
@@ -332,7 +332,7 @@ def check_triangle_rank():
         total = 0
         for assignment in range(8):
             term = 1
-            for i, matrix in enumerate((d1, d1, d0)):
+            for i, matrix in enumerate((D1, D1, D0)):
                 local_choice = bit(assignment, i) + 2 * bit(assignment, (i - 1) % 3)
                 term *= matrix[(state >> (2 * i)) & 3][local_choice]
             total += term
@@ -400,6 +400,80 @@ def smallest_forbidden_triple_cycle():
     raise AssertionError("No cycle for the isolated forbidden triple through length six")
 
 
+def check_connected_dual_rank():
+    # Pair indices are x + 2*y in the local port order.
+    caps = ((0, 2, -1, 0), (0, 2, 1, 0))
+    projected = tuple(
+        tuple(sum(cap[k] * D0[k][p] for k in range(4)) for p in range(4))
+        for cap in caps
+    )
+    assert projected == ((2, 4, 0, 0), (2, 0, 4, 0))
+
+    def port_index(incoming, outgoing, swapped):
+        if swapped:
+            return outgoing + 2 * incoming
+        return incoming + 2 * outgoing
+
+    def column(matrix, row, swapped):
+        return tuple(matrix[row][port_index(a, b, swapped)]
+                     for b, a in product((0, 1), repeat=2))
+
+    def active_columns(state, swaps):
+        return tuple(column(matrix, (state >> (2 * j)) & 3, swaps[j])
+                     for j, matrix in enumerate((D1, D0, D1)))
+
+    vectors = {}
+    for swaps in product((0, 1), repeat=3):
+        values = []
+        for state in range(64):
+            first, second, third = active_columns(state, swaps)
+            value = sum(
+                first[2 * a] * second[a + 2 * b] * third[b + 2 * c] * (1 + c)
+                for a, b, c in product((0, 1), repeat=3)
+            )
+            values.append(value)
+        prior_words = []
+        ranks = []
+        for degree in range(4):
+            prior_words.extend(clifford_word(values, word)
+                               for word in combinations(range(12), degree))
+            ranks.append(rank_mod(prior_words))
+        assert ranks == [1, 13, 63, 64], (swaps, ranks)
+        vectors[swaps] = values
+
+    def cycle_trace(factors):
+        result = (1, 0, 0, 1)
+        for factor in factors:
+            result = tuple(
+                sum(result[a + 2 * k] * factor[k + 2 * b] for k in (0, 1))
+                for b, a in product((0, 1), repeat=2)
+            )
+        return result[0] + result[3]
+
+    patterns = (
+        ((0, (0, 0, 0)),),
+        ((0, (0, 0, 1)), (1, (1, 0, 1))),
+    )
+    compared = 0
+    for pattern in patterns:
+        for states in product(range(64), repeat=len(pattern)):
+            factors, expected = [], 1
+            for (sep_swap, swaps), state in zip(pattern, states):
+                factors.append(tuple(projected[sep_swap][port_index(a, b, sep_swap)]
+                                     for b, a in product((0, 1), repeat=2)))
+                factors.extend(active_columns(state, swaps))
+                expected *= 2 * vectors[swaps][state]
+            assert cycle_trace(factors) == expected, (pattern, states)
+            compared += 1
+
+    for blocks in range(1, 6):
+        size = 4 * blocks
+        edges = [(j, (j + 1) % size) for j in range(size)]
+        alternating = 2 * ((1 << size) - 1) // 3
+        assert count_subsets(weights(edges), alternating) == (2 if blocks % 3 == 0 else 0)
+    return len(vectors), compared
+
+
 def check_run_frontiers():
     rng = Random(757)
 
@@ -441,6 +515,8 @@ def main():
     print(f"Carry counting: {cases} instances; {multiple} with multiple cycles; {schedules} schedules")
     print(f"Open chain: {check_open_matchgates()} matchgate identities")
     print(f"Dual triangle: cumulative ranks modulo 1009 = {check_triangle_rank()}")
+    port_orders, projected_coefficients = check_connected_dual_rank()
+    print(f"Connected dual: {port_orders} port orders; {projected_coefficients} projected coefficients")
     local_cases = check_local_constraints()
     smallest = smallest_forbidden_triple_cycle()
     assert smallest == 6, smallest
