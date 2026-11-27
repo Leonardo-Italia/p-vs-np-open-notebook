@@ -1,0 +1,5 @@
+name = "open-notebook"
+defaultTargets = ["OpenNotebook"]
+
+[[lean_lib]]
+name = "OpenNotebook"

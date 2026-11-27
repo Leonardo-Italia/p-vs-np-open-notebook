@@ -1,6 +1,6 @@
 # Subset Sum on a single cycle with an alternating target
 
-**Proof draft.** The construction is given below. The [executable checker](../verify.py) exhausts the local tables and compares exact counts on finite instances. Independent proof review has not yet been recorded.
+**Proof draft and formal carry lemma.** The construction is given below. The [executable checker](../verify.py) exhausts the local tables and compares exact counts on finite instances. Independent proof review has not yet been recorded.
 
 ## Result
 
@@ -23,6 +23,8 @@ s_i+c_i=t_i+2c_{i+1}, \qquad c_0=c_N=0.
 ```
 
 A column with no incident edges and target bit zero forces both carries to zero. Append such a separator to each of the following blocks. Each named wire is an edge whose two endpoints are columns. All bit patterns below are specified from least to most significant unless explicitly displayed as binary integers.
+
+The [Lean proof](../lean/OpenNotebook/CarryProof.lean) checks the characterization by a unique binary carry chain for every finite list of columns with $s_i\le 2$. The [separate statement](../lean/OpenNotebook/CarryStatement.lean) specifies the weighted equality and both boundary carries. See the [build instructions](../README.md#formal-verification-in-lean).
 
 ## The initial path forest
 

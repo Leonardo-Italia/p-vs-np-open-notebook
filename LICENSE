@@ -12,10 +12,10 @@ For attribution, credit the P vs NP Open Research Notebook and link to the
 source material where reasonably practicable. See CITATION.cff for citing a
 specific version of the research.
 
-Python scripts — MIT
+Python and Lean code — MIT
 
-The following MIT license applies to the repository's Python scripts,
-including verify.py and run_counting.py.
+The following MIT license applies to the repository's Python scripts and
+original Lean sources under lean/.
 
 MIT License
 

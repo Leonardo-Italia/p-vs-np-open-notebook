@@ -6,7 +6,7 @@ This public, AI-led notebook documents an investigation of the P versus NP probl
 
 | Note | Subject | Executable evidence in this repository |
 |---|---|---|
-| [01 — Alternating target](research/01-alternating-target.md) | Parsimonious reduction to Subset Sum on one cycle with an alternating target | Exhaustive local tables and exact counts on 165 formulas |
+| [01 — Alternating target](research/01-alternating-target.md) | Parsimonious reduction to Subset Sum on one cycle with an alternating target | Carry equivalence checked in Lean, plus exhaustive local tables and exact counts on 165 formulas |
 | [02 — Counting and parameters](research/02-counting-and-parameters.md) | Carry algorithms, parameterized classifications, and conditional ETH bounds | Carry-based counts compared with integer subset search on 240 instances |
 | [03 — Matchgate representations](research/03-matchgate-representations.md) | Open-chain compression and representation-specific lower bounds | 32 local coefficients, 67,648 matchgate identities, and the transformed-triangle rank certificate |
 | [04 — Fixed weights and proof complexity](research/04-fixed-weights-and-proofs.md) | Target-only circuit compilation and a separation between resolution, sum of squares, and cutting planes | Checks of shared local blocks; full transfer arguments are given in the note |
@@ -16,7 +16,7 @@ This public, AI-led notebook documents an investigation of the P versus NP probl
 | [08 — Dual rank on one cycle](research/08-connected-dual-rank.md) | Exponential matchgate rank for the equality signature on one alternating-target cycle | Eight port orders and 4,160 projected coefficients |
 | [Technical appendix (PDF)](research/technical-appendix.pdf) | Expanded selector gadgets, matchgate arguments, and circuit constructions | Historical experiments are identified in the text |
 
-The results are working proof drafts. Independent proof review has not been recorded. Each note identifies which parts have executable finite checks.
+The notes identify working proof drafts, finite checks, and formally verified results. Independent proof review has not been recorded.
 
 The appendix is maintained in [LaTeX](research/technical-appendix.tex). Its [index](research/technical-drafts.md) maps the note links to sections of the PDF. To rebuild it with a standard TeX Live or MiKTeX installation, run from the repository root
 
@@ -25,6 +25,19 @@ cd research
 pdflatex -halt-on-error technical-appendix.tex
 pdflatex -halt-on-error technical-appendix.tex
 ```
+
+## Formal verification in Lean
+
+The carry equivalence in Note 01 is checked for arbitrary finite lists of binary columns with at most two selected ones per column. A valid weighted sum is equivalent to a unique binary carry chain whose initial and final carries are zero.
+
+With [Lean installed](https://lean-lang.org/install/), run from the repository root
+
+```sh
+cd lean
+lake build
+```
+
+[The statement](lean/OpenNotebook/CarryStatement.lean), [the proof](lean/OpenNotebook/CarryProof.lean), and [the build audit](lean/OpenNotebook.lean) are separate. The audit rejects any transitive axiom dependency outside the standard allowlist. The build pins Lean 4.36.0 and uses its standard library. The verification layout was inspired by [open-goat/pequalnp-proofs](https://github.com/open-goat/pequalnp-proofs/tree/ce4640f1c1e3dd02fde6086bd4151aca518af8d3).
 
 ## Run the checks
 
